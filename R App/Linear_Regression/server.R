@@ -1,7 +1,6 @@
 
 library(shiny)
 
-# Define server logic required to draw a histogram
 shinyServer(function(input, output) {
   dataInput<-reactive({
     inFile <- input$file
@@ -27,8 +26,6 @@ shinyServer(function(input, output) {
     if (is.null(input$file))
       return()
     
-    # Depending on input$input_type, we'll generate a different
-    # UI component and send it to the client.
     radioButtons(
                         "response", "Response",
                         choices = names(dataInput()),
@@ -39,8 +36,6 @@ shinyServer(function(input, output) {
     if (is.null(input$file))
       return()
     
-    # Depending on input$input_type, we'll generate a different
-    # UI component and send it to the client.
     radioButtons(
       "variable", "Feature",
       choices = names(dataInput()),
@@ -83,7 +78,6 @@ shinyServer(function(input, output) {
   })
   output$distPlot <- renderPlot({
     x<-dataInput()
-    # generate bins based on input$bins from ui.R
     r<-fitModel()
     if (is.null(input$variable)|is.null(input$rowcount)|is.null(input$response)|is.null(r)|is.null(x))
       return()
