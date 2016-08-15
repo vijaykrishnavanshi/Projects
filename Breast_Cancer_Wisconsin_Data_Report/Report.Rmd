@@ -1,0 +1,164 @@
+---
+title: "Report on Breast Cancer Wisconsin (Prognostic) Data Set"
+author: "Vijay Krishnavanshi"
+date: "1 August 2016"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## DataSet
+
+Dataset is from UCI Machine Learning Repository - Breast Cancer Wisconsin (Prognostic) Data Set. This dataset contains three files :
+
+1) Wisconsin Breast Cancer Database
+2) Wisconsin Diagnostic Breast Cancer (WDBC)
+3) Wisconsin Prognostic Breast Cancer (WPBC)
+
+This dataset is available online at <https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Prognostic%29>.
+
+Reading the dataset can be done similar to that of the CSV as the fields are "," separated and newline contains new records. Data is clean so not much of the preprocessing is required. File contain no headers. 
+
+```{r cars}
+WDBC_data=read.csv("wdbc.data",head=FALSE,sep = ",")
+WPBC_data=read.csv("wpbc.data",head=FALSE,sep = ",")
+bcw_data=read.csv("breast-cancer-wisconsin.data",head=FALSE,sep = ",")
+```
+Loading required libraries : 
+
+```{r}
+library(caret)
+library(class)
+```
+## Preprocessing the data
+Using just the first dataset 
+```{r}
+bcw_data<-bcw_data[-(which(bcw_data$V7=="?")),]
+```
+
+
+## Classification on Wisconsin Breast Cancer Database
+    Target Vaiable - Class ( 2 for Benign Tumor and 4 for Malignant Tumor )
+
+```{r}
+summary(bcw_data)
+```
+Data is skewed.
+
+Preparing data for training a classifier
+```{r}
+### dimension of dataset
+dim(bcw_data)
+inTrain<-createDataPartition(y=bcw_data$V11,p=0.75,list=FALSE)
+training<-bcw_data[inTrain,]
+testing<-bcw_data[-inTrain,]
+### dimension of the training set 
+dim(training)
+### dimension of testing set 
+dim(testing)
+```
+Summary shows that data is skewedbut when we explore the target variable we see that the class is well balanced. 
+
+```{r}
+summary(training)
+hist(training$V11,main = "Class Distribution" , xlab = "Target Variable" )
+```
+## Techniques that are available for Classification 
+
+1. Quadratic Discrimnant Analysis
+
+2. Linear Discriminant Analysis
+
+3. K - Nearest Neighbour - 1
+
+4. K - Nearest Neighbour - 3
+
+5. Logistic Regression 
+
+Logistic Regression and KNN was tried as they do not assume the gaussian 
+distribution of the data. Variables being skewed this condition was not staisfied 
+
+```{r}
+set.seed(1)
+knn.pred1=knn(training[,2:10],testing[,2:10],training[,11],k=1)
+p=table(knn.pred1,testing[,11])
+print(p)
+accuracy=(p[1,1]+p[2,2])/length(testing$V11)
+accuracy
+knn.pred2=knn(training[,2:10],testing[,2:10],training[,11],k=3)
+p=table(knn.pred2,testing[,11])
+print(p)
+accuracy=(p[1,1]+p[2,2])/length(testing$V11)
+accuracy
+
+```
+
+K - Nearest Neighbour was selected as the classifier was erring more on the False Positive side on the False Negative Side.
+
+## Clustering 
+Techniques available:
+
+1. Principle Component Analysis
+
+2. K - Means Algorithm
+
+  - Hartigan-Wong
+
+  - Lloyd
+
+  - Forgy
+
+  - MacQueen
+
+
+Not used PCA as the number of feature was much less than the number of data points
+and k - means can better handle skewed data.
+
+Data points were spanning over small range of values so Variability was also not an 
+issue
+
+```{r}
+cluster_fit=kmeans(bcw_data[,2:10],2,iter.max = 100)
+hist(cluster_fit$cluster)
+res=cluster_fit$cluster
+p=table(ifelse(res==1,2,4),bcw_data[,11])
+print(p)
+accuracy=(p[1,1]+p[2,2])/length(cluster_fit$cluster)
+accuracy
+```
+## Regression 
+```{r}
+summary(WPBC_data)
+```
+
+Preparing data for regression :
+```{r}
+inTrain1<-createDataPartition(y=WPBC_data$V3,p=0.75,list=FALSE)
+training<-WPBC_data[inTrain,]
+testing<-WPBC_data[-inTrain,]
+```
+
+Fitting the model 1 with pca : 
+```{r}
+dat <- training[,2:34]
+
+lmFit1 <- train(V3~., dat, method = "lm", preProcess=c("pca"), 
+                 trControl = trainControl(method = "cv"))
+lmFit1.pred<-predict(lmFit1,testing[2:34])
+sqrt(sum((lmFit1.pred-testing[,3])^2)/94)
+```
+Fitting the model 2 without pca: 
+```{r}
+lmFit2 <- train(V3~., dat, method = "lm", 
+                 trControl = trainControl(method = "cv"))
+lmFit2.pred<-predict(lmFit2,testing[2:34])
+sqrt(sum((lmFit2.pred-testing[,3])^2)/94)
+```
+
+As the data has many correlated features PCA is used to reduce the number of features for better and improved prediction but the results does not support the arguement
+
+Cross validation was used to better generalise the error
+
+So fit that give less standard error was selected as they give better result.
