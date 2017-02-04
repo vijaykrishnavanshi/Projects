@@ -1,0 +1,99 @@
+{% extends "login.html" %}
+
+<head>
+
+        {% if title %}
+        <title>{{title}}</title>
+        {% endif %}
+
+</head>
+
+{% block body %}
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><i class="fa fa-home fa-2x" aria-hidden="true"></i> Home</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {% if lg_username %}
+        <li class="active"><a href="/user/{{lg_username}}"><i class="fa fa-dashcube fa-2x" aria-hidden="true"></i> <b>Dashboard</b> <span class="sr-only">(current)</span></a></li>
+        {% endif %}
+        <li><a href="/players"><i class="fa fa-play fa-2x" aria-hidden="true"></i> <b>Players</b></a></li>
+        <li><a href="/bidders"><i class="fa fa-btc fa-2x" aria-hidden="true"></i> <b>Bidders</b></a></li>
+        <li><a href="/rules"><i class="fa fa-delicious fa-2x" aria-hidden="true"></i> <b>Rules</b></a></li>
+      </ul>
+      {% if lg_username %}
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-2x" aria-hidden="true"></i> <b>{{ lg_username }}</b> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% else %}
+       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+	<i class="fa fa-user fa-2x" aria-hidden="true"></i><b>
+          <a href="/login">Login</a></b>
+        </li>
+      </ul>
+      {% endif %}
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<br>
+<div class="user-info">
+<h2 align="center">{{fullname}}({{username}})</h2>
+<h2 align="center">{{entryno}}</h2>
+</div>
+<hr>
+
+<div class="row">
+  <div class="col-sm-6 bidding">
+    <h3 align="center">Bidding Info</h3>
+    <p align="center">Points Available: {{bvalue}}</p>
+    <div class="panel panel-default">
+      {% if bidders|length > 0 %}
+      <div class="panel-heading players-list">
+        {% for bidder in bidders %}
+        <li>    <a href="/user/{{bidder}}">{{bidder}}</li>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="panel-heading">
+        <span align="center">No shares available, start playing</span>
+      </div>
+    {% endif %}
+    </div>
+  </div>
+  <div class="col-sm-6 playerinfo">
+    <h3 align="center">Playing Info</h3>
+    <p align="center">Share Value: {{pvalue}}</p>
+    <div class="panel panel-default">
+      {% if playing|length > 0 %}
+        <div class="panel-heading players-list">
+        {% for play in playing %}
+        <li>    {{play}}</li>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="panel-heading">
+        <span>No playing information available</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

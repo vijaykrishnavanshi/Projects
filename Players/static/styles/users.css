@@ -1,0 +1,86 @@
+.uservalue
+{
+	float: right;
+}
+.current 
+{
+	position: relative;
+	margin-top: 15%;
+}
+.article
+{
+	margin-left:20%;
+	margin-right: 20%;
+	font-size: 20px; 
+}
+.players-list
+{
+	font-size: 25px;
+	color: black;
+}
+.panel1
+{
+	margin-left: 20%;
+	margin-right: 20%;
+}
+.panel2
+{
+	margin-left: 25%;
+	margin-right: 30%;
+}
+.plusign
+{
+	margin-left: 20%;
+}
+.playervalue
+{
+	margin-left: 20%;
+}
+a{
+	color: black;
+}
+.flashes
+{
+	font-size: 20px;
+	text-align: center;
+	margin-top: 5%;
+}
+.navbar
+{
+	background-color: #3C5A99;
+	color: #fff;
+	width: 100%;
+	margin-top: 0%;
+	margin-left: 0%;
+	margin-right: 0%;
+}
+.navbar-default .navbar-nav>li>a
+{
+	color: #fff;
+    font-family: 'Open Sans', "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif; 
+}
+.navbar-default .navbar-brand
+{
+	color: #fff;
+    font-family: 'Open Sans', "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;
+    position: relative;
+    padding: 9px;
+
+}
+.user-info
+{
+	background-color: #efefef;
+	color: black;
+	padding: 10px;
+	margin-top:3%;
+	border-radius: 10px;
+}
+h3
+{
+    font-family: 'Open Sans', "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif; 
+
+}
+.table
+{
+	background-color: #D3D3D3;
+}

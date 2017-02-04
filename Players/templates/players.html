@@ -1,0 +1,100 @@
+{% extends "login.html" %}
+
+<head>
+</head>
+
+	{% block body %}
+	<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><i class="fa fa-home fa-2x" aria-hidden="true"></i> <b>Home</b></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {% if lg_username %}
+        <li><a href="/user/{{lg_username}}"><i class="fa fa-dashcube fa-2x" aria-hidden="true"></i> <b>Dashboard</b></a></li>
+        {% endif %}
+        <li class="active"><a href="#"><i class="fa fa-play fa-2x" aria-hidden="true"></i> <b>Players</b> <span class="sr-only">Current</span></a></li>
+        <li><a href="/bidders"><i class="fa fa-btc fa-2x" aria-hidden="true"></i> <b>Bidders</b></a></li>
+        <li><a href="/rules"><i class="fa fa-delicious fa-2x" aria-hidden="true"></i> <b>Rules</b></a></li>
+      </ul>
+      {% if lg_username %}
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-2x" aria-hidden="true"></i> <b>{{ lg_username }} </b><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% else %}
+       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="/login"><i class="fa fa-user fa-2x" aria-hidden="true"></i> <b>Login</b></a>
+        </li>
+      </ul>
+      {% endif %}
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<br>
+<br>
+<div class="container-fluid">
+  <h2 align="center">Players Leaderboard</h2>
+  <hr>
+  {% if lg_username %}
+  <div class="panel panel-default panel1">
+    <div class="panel-heading players-list">
+      <table class="table table-striped">
+        <thead>
+          <th>Users</th>
+          <th>Current Value</th>
+          <th>Add/Remove</th>
+        </thead>
+        {% for player, playervalue, sh in players %}
+    	    <tr>
+          <td>
+            {{loop.index}}. <a href="/user/{{player}}">{{player}}</a>
+          </td>
+          <td class="playervalue">{{playervalue}}</td> 
+          {% if lg_username %}
+          <td>{% if sh == 2 and lg_username!=player%}
+            <a href="/purchase/{{lg_username}}buys{{player}}"><i class="fa fa-plus-circle plusign"></i></a>
+            {% elif sh == 0 and lg_username!=player %}
+            <a href="/sell/{{lg_username}}sells{{player}}"><i class="fa fa-minus-circle plusign"></i></a>
+            {% endif %}
+          </td>
+          {% endif %}
+        </tr>
+	{% endfor %}
+</table>
+    </div>
+  </div>
+  {% else %}
+  <div class="panel panel-default panel2">
+    <div class="panel-heading players-list">
+      <table class="table table-striped">
+        <thead>
+          <th>Users</th>
+          <th>Current Value</th>
+        </thead>
+        {% for player,playervalue, sh in players %}
+        <tr>
+          <td>{{loop.index}}. <a href="/user/{{player}}">{{player}}</td>
+          <td class="playervalue">{{playervalue}}</td>
+        </tr>
+  {% endfor %}
+</table>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+	{% endblock %}

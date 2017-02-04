@@ -1,0 +1,111 @@
+<html>
+  
+  <head>
+    {% block head %}
+
+    {% if title %}
+    <title>{{title}}</title>
+    {% endif %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <link rel="stylesheet" href="../static/styles/users.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    {% endblock %}
+  </head>
+
+  <body>
+{% block body %}
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><i class="fa fa-home fa-2x" aria-hidden="true"></i> <b>Home</b></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {% if lg_username %}
+        <li class="active"><a href="/user/{{lg_username}}">Dashboard <span class="sr-only">(current)</span></a></li>
+        {% endif %}
+        <li><a href="/players"><i class="fa fa-play fa-2x" aria-hidden="true"></i> <b>Players</b></a></li>
+        <li><a href="/bidders"><i class="fa fa-btc fa-2x" aria-hidden="true"></i> <b>Bidders</b></a></li>
+        <li><a href="/rules"><i class="fa fa-delicious fa-2x" aria-hidden="true"></i> <b>Rules</b></a></li>
+      </ul>
+      {% if lg_username %}
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-2x" aria-hidden="true"></i> <b>{{ lg_username }}</b> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% else %}
+       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="/signup"><i class="fa fa-user fa-2x" aria-hidden="true"></i> <b> Signup</b></a>
+        </li>
+      </ul>
+      {% endif %}
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+      {{ message }}
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+ <div class="text-center" style="padding:50px 0">
+  <div class="logo">Login</div>
+  <!-- Main Form -->
+  <div class="login-form-1">
+    <form id="login-form" class="text-left" method="post">
+      <div class="login-form-main-message"></div>
+      <div class="main-login-form">
+        <div class="login-group">
+          <div class="form-group">
+            <label for="lg_username" class="sr-only">Username</label>
+            <input type="text" class="form-control" id="lg_username" name="lg_username" placeholder="Username" required>
+          </div>
+          <div class="form-group">
+            <label for="lg_password" class="sr-only">Password</label>
+            <input type="password" class="form-control" id="lg_password" name="lg_password" placeholder="Password" required>
+          </div>
+        </div>
+        <button type="submit" class="login-button" onclick="post"><i class="fa fa-chevron-right"></i></button>
+      </div>
+      <div class="etc-login-form">
+        <p>New user? <a href="/signup">Create new account</a></p>
+      </div>
+    </form>
+  </div>
+  <!-- end:Main Form -->
+</div>
+
+{% endblock %}
+
+  </body>
+</html>       
+
+
+
+

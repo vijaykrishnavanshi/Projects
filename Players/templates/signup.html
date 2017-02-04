@@ -1,0 +1,102 @@
+{% extends "login.html" %}
+<head>
+
+	{% if title %}
+	<title>{{title}}</title>
+	{% endif %}
+
+</head>
+
+	{% block body %}
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><i class="fa fa-home fa-2x" aria-hidden="true"></i> <b>Home</b></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {% if lg_username %}
+        <li class="active"><a href="/user/{{lg_username}}"><i class="fa fa-dashcube fa-2x" aria-hidden="true"></i> <b>Dashboard</b><span class="sr-only">(current)</span></a></li>
+        {% endif %}
+        <li><a href="/players"><i class="fa fa-play fa-2x" aria-hidden="true"></i> <b>Players</b></a></li>
+        <li><a href="/bidders"><i class="fa fa-btc fa-2x" aria-hidden="true"></i> <b>Bidders</b></a></li>
+        <li><a href="/rules"><i class="fa fa-delicious fa-2x" aria-hidden="true"></i> <b>Rules</b></a></li>
+      </ul>
+      {% if lg_username %}
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-2x" aria-hidden="true"></i> <b>{{ lg_username }}</b> <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% else %}
+       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="/login"><i class="fa fa-user fa-2x" aria-hidden="true"></i> <b>Login</b></a>
+        </li>
+      </ul>
+      {% endif %}
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+      {{ message }}
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+<div class="text-center" style="padding:50px 0">
+  <div class="logo">Register</div>
+  <!-- Main Form -->
+  <div class="login-form-1">
+    <form id="register-form" class="text-left" method="post">
+      <div class="login-form-main-message"></div>
+      <div class="main-login-form">
+        <div class="login-group">
+          <div class="form-group">
+            <label for="reg_name" class="sr-only">Full-Name</label>
+            <input type="text" class="form-control" id="reg_name" name="reg_name" placeholder="Full Name" required>
+          </div>
+          <div class="form-group">
+            <label for="reg_username" class="sr-only">User-Name</label>
+            <input type="text" class="form-control" id="reg_username" name="reg_username" placeholder="User Name" required>
+          </div>
+          <div class="form-group">
+            <label for="reg_entryno" class="sr-only">Entry-No</label>
+            <input type="text" class="form-control" id="reg_entryno" name="reg_entryno" placeholder="Entry Number" required>
+          </div>
+          <div class="form-group">
+            <label for="reg_password" class="sr-only">Password</label>
+            <input type="password" class="form-control" id="pass1" name="reg_password" placeholder="Password" required>
+          </div>
+          <div class="form-group">
+            <label for="reg_password_confirm" class="sr-only">Password Confirm</label>
+            <input type="password" class="form-control" id="pass2" name="reg_password_confirm" placeholder="Confirm Password" required>
+          </div>
+          
+        </div>
+        <button type="submit" class="login-button" onclick="post"><i class="fa fa-chevron-right"></i></button>
+      </div>
+      <div class="etc-login-form">
+        <p>Already have an account? <a href="/login">Login here</a></p>
+      </div>
+    </form>
+  </div>
+  <!-- end:Main Form -->
+</div>
+{% endblock %}
+

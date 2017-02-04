@@ -1,0 +1,79 @@
+{% extends "login.html" %}
+
+<head>
+
+        {% if title %}
+        <title>{{title}}</title>
+        {% endif %}
+
+</head>
+
+{% block body %}
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><i class="fa fa-home fa-2x" aria-hidden="true"></i> <b>Home</b></a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        {% if lg_username %}
+        <li><a href="/user/{{lg_username}}"><i class="fa fa-dashcube fa-2x" aria-hidden="true"></i> <b>Dashboard</b></a></li>
+        {% endif %}
+        <li><a href="/players"><i class="fa fa-play fa-2x" aria-hidden="true"></i> <b>Players</b></a></li>
+        <li><a href="/bidders"><i class="fa fa-btc fa-2x" aria-hidden="true"></i> <b>Bidders</b></a></li>
+        <li class="active"><a href="#"><i class="fa fa-delicious fa-2x" aria-hidden="true"></i> <b>Rules</b> <span class="sr-only">Current</span></a></li>
+      </ul>
+     {% if lg_username %}
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ lg_username }} <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      {% else %}
+       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="/login"><i class="fa fa-user fa-2x" aria-hidden="true"></i> <b>Login</b></a>
+        </li>
+      </ul>
+      {% endif %}
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<br>
+<br>
+<h1 align="center">Rules</h1>
+<article class="article">
+This event is based on BIDDING on players in Titiksha 2k16. This event will have two set of contestants – 
+<br><br>
+•	Players
+<br>
+•	Bidders
+<br><br>
+Any contestant can register himself/ herself as player , bidder or both. 
+PLAYERS- Those who’ll register themselves as players will have an initial value of 70 points.
+BIDDERS- Those registered as bidders will bid on these players (maximum 3 at a time). A bidder who will register as player also can not bid upon himself/ herself. He can bid upon other 3 players.On registeration, every bidder will be given 200 points to start bidding. 
+The initial value of 70 points of bidders will change (increase/decrease) according to their participation / performance in titiksha 2k16 events.
+<div>
+ <h2 align="center">RULES</h2>
+ <ol>
+<li>Sign up on our website by contacting the co-ordinators.</li>
+<li>Pay sign up fee of Rs. 20 each as a player or bidder for account activation at Internet Lab, Block - D.</li>
+<li>	Upon payment of registration fee, bidders will be allotted 200 points to start bidding. Bidders can gain more points to bid @Rs. 10 / 100 points. </li>
+<li>Register yourself as soon as possible as the bidding will start from Friday 10:00am to Sunday 4:00pm. The results will be declared within an hour or two from the closing of event.</li> 
+<li>	The winners will be given cash prizes. Two separate leader boards (for players as well as bidders)  will be maintained for prize distribution.</li>
+<li>The players having highest value in terms of points at the end of the event will be declared winners.</li> 
+<li>The bidders earning highest points in proportion to the amount invested will be declared winners.</li>
+<li>Amount of cash prizes will be announced later on the basis of number of registrations received.</li>
+</ol>
+</div>
+</article>
+{% endblock %}
